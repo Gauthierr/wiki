@@ -1,0 +1,33 @@
+# Configuration de l'agenda quotidien.
+# Copiez ce fichier en `config.yaml` pour un usage local
+# (en CI, ces valeurs ont des défauts raisonnables et les URLs viennent des secrets).
+
+# Fuseau horaire utilisé pour l'affichage et la fenêtre de jours.
+timezone: Europe/Paris
+
+# Nombre de jours affichés, à partir d'aujourd'hui inclus.
+days_ahead: 7
+
+# Dossier de sortie pour le PDF généré.
+output_dir: out
+
+# Titre affiché en haut du document.
+title: Mon agenda
+
+# --- reMarkable ---
+# Dossier cible sur le cloud reMarkable (créé s'il n'existe pas).
+remarkable_folder: /Agenda
+# Nombre de PDF "Agenda ..." à conserver dans ce dossier (les plus anciens sont supprimés).
+# Mettez 0 pour ne jamais supprimer.
+keep_last: 7
+
+# --- Sources d'agenda ---
+# Chaque calendrier référence une variable d'environnement contenant son URL iCal (.ics) secrète.
+# Un calendrier dont la variable est vide/absente est simplement ignoré (avec un avertissement).
+calendars:
+  - name: Outlook
+    url_env: ICS_OUTLOOK
+  - name: Gmail
+    url_env: ICS_GMAIL
+  - name: Infomaniak
+    url_env: ICS_INFOMANIAK

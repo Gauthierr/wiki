@@ -1,0 +1,21 @@
+# Sorties générées
+out/
+*.pdf
+
+# Secrets / config locale (ne JAMAIS committer)
+config.yaml
+.env
+rmapi.conf
+*.secret
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.python-version
+
+# OS / éditeurs
+.DS_Store
+.idea/
+.vscode/
