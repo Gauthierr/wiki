@@ -32,6 +32,7 @@ Claude Code (mobile/web)  ──commit/push──▶  GitHub  ──Action SSH�
 | [07 — Coexistence avec Nextcloud](docs/07-nextcloud-coexistence.md) | Raccorder l'existant sans rien casser |
 | [08 — Annexes](docs/08-annexes.md) | Alternatives : Nginx Proxy Manager, Portainer/Watchtower, sans domaine |
 | [09 — Claude Code sur le VPS](docs/09-claude-code-sur-le-vps.md) | Lancer Claude Code directement sur le serveur pour tout configurer + MCP Hostinger |
+| [10 — Workflow Git multi-postes](docs/10-workflow-git-multi-postes.md) | Committer depuis partout, serveur toujours à jour (GitOps, branches, rollback) |
 
 ## Modèles prêts à l'emploi
 
