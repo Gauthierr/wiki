@@ -23,6 +23,7 @@ Claude Code (mobile/web)  ──commit/push──▶  GitHub  ──Action SSH�
 
 | Doc | Contenu |
 |-----|---------|
+| [00 — Contexte réel (aktias.be)](docs/00-contexte-aktias.md) | Valeurs réelles : IP du VPS, DNS, ce qu'il ne faut pas toucher |
 | [01 — Vue d'ensemble](docs/01-vue-ensemble.md) | Principes, schéma, flux de déploiement, prérequis |
 | [02 — Installation de Traefik](docs/02-installation-traefik.md) | Reverse proxy, DNS wildcard, HTTPS automatique |
 | [03 — Ajouter un projet](docs/03-ajouter-un-projet.md) | Procédure pas-à-pas (checklist) pour un nouveau projet |
