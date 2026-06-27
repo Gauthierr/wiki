@@ -1,0 +1,13 @@
+# Secrets — ne JAMAIS committer le .env réel (seul .env.example est versionné).
+.env
+.env.local
+.env.*.local
+
+# Dépendances et build
+node_modules/
+dist/
+build/
+
+# Logs / divers
+*.log
+.DS_Store

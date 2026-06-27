@@ -1,0 +1,63 @@
+# Template de projet : app React (statique) + PostgreSQL dédié, routé par Traefik.
+# Copie ce fichier à la racine de ton repo, puis remplace "PROJET" et le domaine.
+#
+# Avant le premier déploiement :  cp .env.example .env  (et remplis-le sur le VPS)
+# Remplace partout :
+#   PROJET                  -> le nom de ton projet (ex. projet1)  [unique sur le VPS]
+#   projet1.mondomaine.com  -> ton vrai sous-domaine
+
+services:
+  app:
+    build: .
+    container_name: PROJET-app
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - web        # joignable par Traefik
+      - internal   # parle à postgres
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.PROJET.rule=Host(`projet1.mondomaine.com`)"
+      - "traefik.http.routers.PROJET.entrypoints=websecure"
+      - "traefik.http.routers.PROJET.tls.certresolver=letsencrypt"
+      # Port INTERNE du conteneur app (nginx sert le build React sur le port 80).
+      - "traefik.http.services.PROJET.loadbalancer.server.port=80"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: PROJET-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - internal   # PAS sur "web" : la base n'est jamais exposée publiquement
+    # Aucune section `ports:` -> la base n'est joignable que par l'app, en interne.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+networks:
+  web:
+    external: true   # réseau partagé du reverse proxy (docker network create web)
+  internal:
+    driver: bridge   # réseau privé app <-> postgres
+
+volumes:
+  db_data:           # persistance de la base (survit à docker compose down)

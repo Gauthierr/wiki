@@ -1,0 +1,37 @@
+# Configuration statique de Traefik.
+# Monté en lecture seule dans le conteneur (voir docker-compose.yml).
+
+api:
+  dashboard: true        # active le dashboard (exposé via les labels du compose)
+
+entryPoints:
+  web:
+    address: ":80"
+    # Redirige tout le trafic HTTP vers HTTPS.
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+providers:
+  docker:
+    exposedByDefault: false   # seuls les conteneurs avec `traefik.enable=true` sont routés
+    network: web              # réseau partagé sur lequel Traefik joint les apps
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: TON_EMAIL@exemple.com    # ← reçoit les alertes d'expiration des certificats
+      storage: /acme.json
+      # Validation HTTP-01 via l'entrypoint HTTP.
+      httpChallenge:
+        entryPoint: web
+      # --- Tests : décommente pour utiliser l'environnement Let's Encrypt staging ---
+      # (évite d'épuiser les quotas pendant la mise au point ; certificats non valides).
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+
+log:
+  level: INFO
